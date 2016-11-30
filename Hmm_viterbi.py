@@ -1,34 +1,33 @@
 import nltk
 from nltk.corpus import conll2000
 
-class PointOfSpeechTagger(object):
-    """docstring for PointOfSpeechTagger."""
-    def __init__(self, arg):
-        super(PointOfSpeechTagger, self).__init__()
-        self.arg = arg
+# class PointOfSpeechTagger(object):
+#     """docstring for PointOfSpeechTagger."""
+#     def __init__(self, arg):
+#         super(PointOfSpeechTagger, self).__init__()
+#         self.arg = arg
+#
+#
+#     def buildProbDist(corpus):
+conll_tags_words = [ ]
 
+for sent in conll2000.tagged_sents():
+    conll_tags_words.append(("BEGIN","BEGIN"))
+    conll_tags_words.extend([(tag[:3], word) for (word, tag) in sent ])
+    conll_tags_words.append(("STOP","STOP"))
 
-    def buildProbDist(corpus):
-        conll_tags_words = [ ]
+fd_tagwords = nltk.ConditionalFreqDist(conll_tags_words)
+pd_tagwords = nltk.ConditionalProbDist(fd_tagwords, nltk.MLEProbDist)
 
-        for sent in conll2000.tagged_sents():
-            conll_tags_words.append(("BEGIN","BEGIN"))
-            conll_tags_words.extend([(tag[:3], word) for (word, tag) in sent ])
-            conll_tags_words.append(("STOP","STOP"))
+conll_tags = [tag for (tag, word) in conll_tags_words ]
 
-        fd_tagwords = nltk.ConditionalFreqDist(conll_tags_words)
-        pd_tagwords = nltk.ConditionalProbDist(fd_tagwords, nltk.MLEProbDist)
+fd_tags= nltk.ConditionalFreqDist(nltk.bigrams(conll_tags))
 
-        conll_tags = [tag for (tag, word) in conll_tags_words ]
+pd_tags= nltk.ConditionalProbDist(fd_tags, nltk.MLEProbDist)
 
-        fd_tags= nltk.ConditionalFreqDist(nltk.bigrams(conll_tags))
+all_tags = set(conll_tags)
 
-        pd_tags= nltk.ConditionalProbDist(fd_tags, nltk.MLEProbDist)
-
-        all_tags = set(conll_tags)
-
-    def getTags(sentence):
-        pass
+print all_tags
 
 
 conll_tags_words = [ ]
@@ -42,7 +41,6 @@ fd_tagwords = nltk.ConditionalFreqDist(conll_tags_words)
 pd_tagwords = nltk.ConditionalProbDist(fd_tagwords, nltk.MLEProbDist)
 
 conll_tags = [tag for (tag, word) in conll_tags_words ]
-
 fd_tags= nltk.ConditionalFreqDist(nltk.bigrams(conll_tags))
 
 pd_tags= nltk.ConditionalProbDist(fd_tags, nltk.MLEProbDist)
