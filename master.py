@@ -9,7 +9,6 @@ from nltk.corpus import conll2000
 tagger = part_of_speech.PointOfSpeechTagger()
 tagger.buildProbDist(conll2000)
 
-
 while True:
     # Get input
     inp = raw_input("Type a sentence to be checked: ")

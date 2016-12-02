@@ -79,7 +79,6 @@ class PointOfSpeechTagger(object):
 
     def inputToPOS(self):
         inp = raw_input("Let's check a sentence: ")
-        print inp
         arr = self.stringToArr(inp)
         self.sentenceToPOS(arr)
 

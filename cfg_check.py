@@ -1,11 +1,13 @@
 # S   -> NP VP
-# VP  -> V NP | V NP PP
-# PP  -> P NP
-# V   -> END
-# NP  -> END | Det N | Det N PP
-# Det -> END
-# N   -> END
-# P   -> END
+# VP  -> VB NP | VB NP PP
+# PP  -> IN NP
+# VB   -> END
+# NP  -> END | DT NN | DT NN PP
+# DT -> END
+# NN   -> END
+# IN   -> END
+from nltk import CFG
+from nltk import RecursiveDescentParser
 
 class verifyCFG(object):
 
@@ -13,107 +15,148 @@ class verifyCFG(object):
         super(verifyCFG, self).__init__()
         self.dev = dev
 
+    # grammar1 = CFG.fromstring("""
+    #     S -> NP VP
+    #     VP -> VB NP | VB NP PP
+    #     PP -> IN NP
+    #     VB -> "saw" | "ate" | "walked"
+    #     NP -> "John" | "Mary" | "Bob" | DT NN | DT NN PP
+    #     DT -> "a" | "an" | "the" | "my"
+    #     NN -> "man" | "dog" | "cat" | "telescope" | "park"
+    #     IN -> "in" | "on" | "by" | "with"
+    # """)
+
+    grammar2 = CFG.fromstring("""
+        S  -> NP VP
+        NP -> "DT" Nom | "NNP"
+        Nom -> "JJ" Nom | "NN"
+        VP -> "VB" "JJ" | "VB" NP | "VB" S | "VB" NP PP
+        PP -> "IN" NP
+    """)
+        # NNP -> 'Buster' | 'Chatterer' | 'Joe'
+        # DT -> 'the' | 'a'
+        # NN -> 'bear' | 'squirrel' | 'tree' | 'fish' | 'log'
+        # JJ  -> 'angry' | 'frightened' |  'little' | 'tall'
+        # VB ->  'chased'  | 'saw' | 'said' | 'thought' | 'was' | 'put'
+        # IN -> 'on'
+
     def verify(self, tags):
-        self.tags = tags
-        self.i = 0
-        print self.S()
+        rd_parser = RecursiveDescentParser(self.grammar2)
+        valid = False
 
-    def S(self):
-        if self.dev: print "S"
-        return ( self.NP(), self.VP() ) == ( True, True ) and self.i == len(self.tags)
-
-    def VP(self):
-        if self.dev: print "VP"
-        part = ( self.V(), self.NP() ) == ( True, True )
-        # Even if V NP, may need to check V NP PP
-        if self.i == len(self.tags):
-            return part
-        elif part:
-            return self.PP() == True
-        else:
-            return False
-
-    def PP(self):
-        if self.dev: print "PP"
-        return ( self.P(), self.NP() ) == ( True, True )
-
-    def NP(self):
-        if self.dev: print "NP"
         try:
-            self.tags[self.i]
-        except IndexError:
-            return False
+            for tree in rd_parser.parse(tags):
+                valid = True
+                print tree
+        except:
+            "Word/tag out of grammar"
 
-        if self.tags[self.i] == "NP":
-            if self.dev: print "Found NP at pos", self.i
-            self.i += 1
-            return True
+        if valid:
+            print "Valid"
         else:
-            # Overlooks the Det N PP rule as a possibility
-            return ( self.Det(), self.N() ) == ( True, True )
-            # part = ( Det(), N() ) == ( True, True )
-            #
-            # # Even if Det N, may need to check Det N PP
-            # # TODO incomplete if statement. self.i could be in middle and this case still exists
-            # if self.i == len(self.tags):
-            #     return part
-            # elif part:
-            #     return PP() == True
-            # else:
-            #     return False
+            print "Invalid"
 
-    def V(self):
-        if self.dev: print "V"
-        try:
-            self.tags[self.i]
-        except IndexError:
-            return False
-
-        if self.tags[self.i] == "V":
-            if self.dev: print "Found V at pos", self.i
-            self.i += 1
-            return True
-        else:
-            return False
-
-    def N(self):
-        if self.dev: print "N"
-        try:
-            self.tags[self.i]
-        except IndexError:
-            return False
-
-        if self.tags[self.i] == "N":
-            if self.dev: print "Found N at pos", self.i
-            self.i+=1
-            return True
-        else:
-            return False
-
-    def P(self):
-        if self.dev: print "P"
-        try:
-            self.tags[self.i]
-        except IndexError:
-            return False
-
-        if self.tags[self.i] == "P":
-            if self.dev: print "Found P at pos", self.i
-            self.i+=1
-            return True
-        else:
-            return False
-
-    def Det(self):
-        if self.dev: print "Det"
-        try:
-            self.tags[self.i]
-        except IndexError:
-            return False
-
-        if self.tags[self.i] == "Det":
-            if self.dev: print "Found Det at pos", self.i
-            self.i+=1
-            return True
-        else:
-            return False
+    # def verify(self, tags):
+    #     self.tags = tags
+    #     self.i = 0
+    #     print self.S()
+    #
+    # def S(self):
+    #     if self.dev: print "S"
+    #     return ( self.NP(), self.VP() ) == ( True, True ) and self.i == len(self.tags)
+    #
+    # def VP(self):
+    #     if self.dev: print "VP"
+    #     part = ( self.VB(), self.NP() ) == ( True, True )
+    #     # Even if VB NP, may need to check VB NP PP
+    #     if self.i == len(self.tags):
+    #         return part
+    #     elif part:
+    #         return self.PP() == True
+    #     else:
+    #         return False
+    #
+    # def PP(self):
+    #     if self.dev: print "PP"
+    #     return ( self.IN(), self.NP() ) == ( True, True )
+    #
+    # def NP(self):
+    #     if self.dev: print "NP"
+    #     try:
+    #         self.tags[self.i]
+    #     except IndexError:
+    #         return False
+    #
+    #     if self.tags[self.i] == "NP":
+    #         if self.dev: print "Found NP at pos", self.i
+    #         self.i += 1
+    #         return True
+    #     else:
+    #         # Overlooks the DT NN PP rule as a possibility
+    #         return ( self.DT(), self.NN() ) == ( True, True )
+    #         # part = ( DT(), NN() ) == ( True, True )
+    #         #
+    #         # # Even if DT NN, may need to check DT NN PP
+    #         # # TODO incomplete if statement. self.i could be in middle and this case still exists
+    #         # if self.i == len(self.tags):
+    #         #     return part
+    #         # elif part:
+    #         #     return PP() == True
+    #         # else:
+    #         #     return False
+    #
+    # def VB(self):
+    #     if self.dev: print "VB"
+    #     try:
+    #         self.tags[self.i]
+    #     except IndexError:
+    #         return False
+    #
+    #     if self.tags[self.i] == "VB":
+    #         if self.dev: print "Found VB at pos", self.i
+    #         self.i += 1
+    #         return True
+    #     else:
+    #         return False
+    #
+    # def NN(self):
+    #     if self.dev: print "NN"
+    #     try:
+    #         self.tags[self.i]
+    #     except IndexError:
+    #         return False
+    #
+    #     if self.tags[self.i] == "NN":
+    #         if self.dev: print "Found NN at pos", self.i
+    #         self.i+=1
+    #         return True
+    #     else:
+    #         return False
+    #
+    # def IN(self):
+    #     if self.dev: print "IN"
+    #     try:
+    #         self.tags[self.i]
+    #     except IndexError:
+    #         return False
+    #
+    #     if self.tags[self.i] == "IN":
+    #         if self.dev: print "Found IN at pos", self.i
+    #         self.i+=1
+    #         return True
+    #     else:
+    #         return False
+    #
+    # def DT(self):
+    #     if self.dev: print "DT"
+    #     try:
+    #         self.tags[self.i]
+    #     except IndexError:
+    #         return False
+    #
+    #     if self.tags[self.i] == "DT":
+    #         if self.dev: print "Found DT at pos", self.i
+    #         self.i+=1
+    #         return True
+    #     else:
+    #         return False
