@@ -29,8 +29,10 @@ class verifyCFG(object):
     grammar2 = CFG.fromstring("""
         S  -> NP VP
         NP -> "DT" Nom | "NNP"
-        Nom -> "JJ" Nom | "NN"
-        VP -> "VB" "JJ" | "VB" NP | "VB" S | "VB" NP PP
+        Nom -> "JJ" Nom | N
+        VP -> V "JJ" | V NP | V S | V NP PP
+        V -> "VBD" | "VB" | "VBG" | "VBN" | "VBP" | "VBZ"
+        N -> "NN" | "NNP" | "NNS" | "NNPS"
         PP -> "IN" NP
     """)
         # NNP -> 'Buster' | 'Chatterer' | 'Joe'

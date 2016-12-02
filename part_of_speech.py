@@ -75,12 +75,16 @@ class PointOfSpeechTagger(object):
 
         best_tag_seq.reverse()
 
+        # Remove BEGIN/END tags
+        best_tag_seq.pop()
+        best_tag_seq.pop(0)
+
         return best_tag_seq
+
+    def stringToPOS(self, string):
+        return self.sentenceToPOS( string.split(' ') )
+
 
     def inputToPOS(self):
         inp = raw_input("Let's check a sentence: ")
-        arr = self.stringToArr(inp)
-        self.sentenceToPOS(arr)
-
-    def stringToArr(self, inp):
-        return inp.split(' ')
+        return self.stringToPOS(inp)
