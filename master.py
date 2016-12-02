@@ -9,12 +9,16 @@ from nltk.corpus import conll2000
 tagger = part_of_speech.PointOfSpeechTagger()
 tagger.buildProbDist(conll2000)
 
-# Get input
-inp = input("Type a sentence to be checked:")
 
-# Turn sentence into part-of-speech tags
-tag_sequence = tagger.sentenceToPOS(inp)
+while True:
+    # Get input
+    inp = raw_input("Type a sentence to be checked: ")
 
-# Pass tag sequence to CFG checker
-cfg_checker = cfg_check.verifyCFG()
-cfg_checker.verify(tag_sequence)
+    # Turn sentence into part-of-speech tags
+    tag_sequence = tagger.sentenceToPOS(inp)
+    print "TAG SEQUENCE:", tag_sequence
+
+    # Pass tag sequence to CFG checker
+    cfg_checker = cfg_check.verifyCFG()
+    print
+    cfg_checker.verify(tag_sequence)
