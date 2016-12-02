@@ -1,4 +1,5 @@
 import nltk
+import re
 
 class PointOfSpeechTagger(object):
     """docstring for PointOfSpeechTagger."""
@@ -25,6 +26,9 @@ class PointOfSpeechTagger(object):
 
 
     def sentenceToPOS(self, sentence):
+        # Force alpha only chars
+        sentence = map(self.cleanWord, sentence)
+
         # Hidden Markov Model using Viterbi alg
         len_sent = len(sentence)
         viterbi = [ ]
@@ -84,7 +88,9 @@ class PointOfSpeechTagger(object):
     def stringToPOS(self, string):
         return self.sentenceToPOS( string.split(' ') )
 
-
     def inputToPOS(self):
         inp = raw_input("Let's check a sentence: ")
         return self.stringToPOS(inp)
+
+    def cleanWord(self, string):
+        return re.sub(r'\W+', '', string)

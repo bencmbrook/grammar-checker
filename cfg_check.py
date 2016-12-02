@@ -30,10 +30,20 @@ class verifyCFG(object):
         S  -> NP VP
         NP -> "DT" Nom | "NNP"
         Nom -> "JJ" Nom | N
-        VP -> V "JJ" | V NP | V S | V NP PP
+        VP -> V "JJ" | V NP | V S | V NP PP | V "RB"
         V -> "VBD" | "VB" | "VBG" | "VBN" | "VBP" | "VBZ"
         N -> "NN" | "NNP" | "NNS" | "NNPS"
         PP -> "IN" NP
+    """)
+
+    grammar3 = CFG.fromstring("""
+        S  -> NP VP
+        NP -> "DT" Nom | "NNP" | "PRP"
+        Nom -> "JJ" Nom | N | Nom N
+        VP -> V "JJ" | V NP | V S | V NP PP | V "RB" | V PP | V
+        V -> "VBD" | "VB" | "VBG" | "VBN" | "VBP" | "VBZ"
+        N -> "NN" | "NNP" | "NNS" | "NNPS"
+        PP -> "IN" NP | "TO" NP
     """)
         # NNP -> 'Buster' | 'Chatterer' | 'Joe'
         # DT -> 'the' | 'a'
@@ -43,15 +53,24 @@ class verifyCFG(object):
         # IN -> 'on'
 
     def verify(self, tags):
-        rd_parser = RecursiveDescentParser(self.grammar2)
+        rd_parser = RecursiveDescentParser(self.grammar3)
         valid = False
+
+        if any(x in tags for x in ["WP", "WDT", "WP$", "WRB"]):
+            print "I haven't learned about question words yet"
+            return
 
         try:
             for tree in rd_parser.parse(tags):
                 valid = True
-                print tree
-        except:
-            "Word/tag out of grammar"
+        except ValueError:
+            print "This is a grammatical structure I don't understand yet."
+            return
+
+        # If all tags VBG (default when error), explain error
+        if tags[1:] == tags[:-1] and tags[0] == "VBG":
+            print "I've never seen one of those words before."
+            return
 
         if valid:
             print "Valid"

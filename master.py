@@ -16,5 +16,5 @@ while True:
 
     # Pass tag sequence to CFG checker
     cfg_checker = cfg_check.verifyCFG()
-    print
     cfg_checker.verify(tag_sequence)
+    print
