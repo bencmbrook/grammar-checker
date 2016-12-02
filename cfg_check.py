@@ -7,125 +7,113 @@
 # N   -> END
 # P   -> END
 
-dev = False
-test = ["Det", "N", "V", "Det", "N", "P", "Det", "N"]
-tags = test
+class verifyCFG(object):
 
-def cfg_check():
-    global i
-    i = 0
-    print S()
+    def __init__(self, dev=False):
+        super(verifyCFG, self).__init__()
+        self.dev = dev
 
-def S():
-    if dev: print "S"
-    return ( NP(), VP() ) == ( True, True ) and i == len(tags)
+    def verify(self, tags):
+        self.tags = tags
+        self.i = 0
+        print self.S()
 
-def VP():
-    if dev: print "VP"
-    part = ( V(), NP() ) == ( True, True )
-    # Even if V NP, may need to check V NP PP
-    if i == len(tags):
-        return part
-    elif part:
-        return PP() == True
-    else:
-        return False
+    def S(self):
+        if self.dev: print "S"
+        return ( self.NP(), self.VP() ) == ( True, True ) and self.i == len(self.tags)
 
-def PP():
-    if dev: print "PP"
-    return ( P(), NP() ) == ( True, True )
+    def VP(self):
+        if self.dev: print "VP"
+        part = ( self.V(), self.NP() ) == ( True, True )
+        # Even if V NP, may need to check V NP PP
+        if self.i == len(self.tags):
+            return part
+        elif part:
+            return self.PP() == True
+        else:
+            return False
 
-def NP():
-    if dev: print "NP"
-    global i
+    def PP(self):
+        if self.dev: print "PP"
+        return ( self.P(), self.NP() ) == ( True, True )
 
-    try:
-        tags[i]
-    except IndexError:
-        return False
+    def NP(self):
+        if self.dev: print "NP"
+        try:
+            self.tags[self.i]
+        except IndexError:
+            return False
 
-    if tags[i] == "NP":
-        if dev: print "Found NP at pos", i
-        i += 1
-        return True
-    else:
-        # Overlooks the Det N PP rule as a possibility
-        return ( Det(), N() ) == ( True, True )
-        # part = ( Det(), N() ) == ( True, True )
-        #
-        # # Even if Det N, may need to check Det N PP
-        # # TODO incomplete if statement. i could be in middle and this case still exists
-        # if i == len(tags):
-        #     return part
-        # elif part:
-        #     return PP() == True
-        # else:
-        #     return False
+        if self.tags[self.i] == "NP":
+            if self.dev: print "Found NP at pos", self.i
+            self.i += 1
+            return True
+        else:
+            # Overlooks the Det N PP rule as a possibility
+            return ( self.Det(), self.N() ) == ( True, True )
+            # part = ( Det(), N() ) == ( True, True )
+            #
+            # # Even if Det N, may need to check Det N PP
+            # # TODO incomplete if statement. self.i could be in middle and this case still exists
+            # if self.i == len(self.tags):
+            #     return part
+            # elif part:
+            #     return PP() == True
+            # else:
+            #     return False
 
-def V():
-    if dev: print "V"
-    global i
+    def V(self):
+        if self.dev: print "V"
+        try:
+            self.tags[self.i]
+        except IndexError:
+            return False
 
-    try:
-        tags[i]
-    except IndexError:
-        return False
+        if self.tags[self.i] == "V":
+            if self.dev: print "Found V at pos", self.i
+            self.i += 1
+            return True
+        else:
+            return False
 
-    if tags[i] == "V":
-        if dev: print "Found V at pos", i
-        i += 1
-        return True
-    else:
-        return False
+    def N(self):
+        if self.dev: print "N"
+        try:
+            self.tags[self.i]
+        except IndexError:
+            return False
 
-def N():
-    if dev: print "N"
-    global i
+        if self.tags[self.i] == "N":
+            if self.dev: print "Found N at pos", self.i
+            self.i+=1
+            return True
+        else:
+            return False
 
-    try:
-        tags[i]
-    except IndexError:
-        return False
+    def P(self):
+        if self.dev: print "P"
+        try:
+            self.tags[self.i]
+        except IndexError:
+            return False
 
-    if tags[i] == "N":
-        if dev: print "Found N at pos", i
-        i+=1
-        return True
-    else:
-        return False
+        if self.tags[self.i] == "P":
+            if self.dev: print "Found P at pos", self.i
+            self.i+=1
+            return True
+        else:
+            return False
 
-def P():
-    if dev: print "P"
-    global i
+    def Det(self):
+        if self.dev: print "Det"
+        try:
+            self.tags[self.i]
+        except IndexError:
+            return False
 
-    try:
-        tags[i]
-    except IndexError:
-        return False
-
-    if tags[i] == "P":
-        if dev: print "Found P at pos", i
-        i+=1
-        return True
-    else:
-        return False
-
-def Det():
-    if dev: print "Det"
-    global i
-
-    try:
-        tags[i]
-    except IndexError:
-        return False
-
-    if tags[i] == "Det":
-        if dev: print "Found Det at pos", i
-        i+=1
-        return True
-    else:
-        return False
-
-
-tags = test
-cfg_check()
+        if self.tags[self.i] == "Det":
+            if self.dev: print "Found Det at pos", self.i
+            self.i+=1
+            return True
+        else:
+            return False

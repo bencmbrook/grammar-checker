@@ -1,5 +1,4 @@
 import nltk
-from nltk.corpus import conll2000
 
 class PointOfSpeechTagger(object):
     """docstring for PointOfSpeechTagger."""
@@ -79,13 +78,7 @@ class PointOfSpeechTagger(object):
         return best_tag_seq
 
     def inputToPOS():
-
-
-sentence = ["I", "saw", "look", "duck"]
-tagger = PointOfSpeechTagger()
-
-tagger.buildProbDist(conll2000)
-print tagger.sentenceToPOS(sentence)
+        pass
 
 # ###################################
 # print "The sentence was: "
