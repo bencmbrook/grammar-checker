@@ -3,15 +3,14 @@ from nltk.corpus import conll2000
 
 class PointOfSpeechTagger(object):
     """docstring for PointOfSpeechTagger."""
-    def __init__(self, arg):
+    def __init__(self):
         super(PointOfSpeechTagger, self).__init__()
-        self.arg = arg
-        
+
 
     def buildProbDist(self, corpus):
         conll_tags_words = [ ]
 
-        for sent in conll2000.tagged_sents():
+        for sent in corpus.tagged_sents():
             conll_tags_words.append(("BEGIN","BEGIN"))
             conll_tags_words.extend([(tag[:3], word) for (word, tag) in sent ])
             conll_tags_words.append(("STOP","STOP"))
@@ -27,7 +26,7 @@ class PointOfSpeechTagger(object):
 
 
     def sentenceToPOS(self, sentence):
-        #Viterbi
+        # Hidden Markov Model using Viterbi alg
         len_sent = len(sentence)
         viterbi = [ ]
         backpointer = [ ]
@@ -77,17 +76,24 @@ class PointOfSpeechTagger(object):
 
         best_tag_seq.reverse()
 
+        return best_tag_seq
+
+    def inputToPOS():
+
 
 sentence = ["I", "saw", "look", "duck"]
+tagger = PointOfSpeechTagger()
 
+tagger.buildProbDist(conll2000)
+print tagger.sentenceToPOS(sentence)
 
-###################################
-print "The sentence was: "
-for s in sentence:
-    print s
-
-print "The best tag sequence is:"
-for t in best_tag_seq:
-    print t
-
-print "The probability of the best tag sequence is:", prob_tag_seq
+# ###################################
+# print "The sentence was: "
+# for s in sentence:
+#     print s
+#
+# print "The best tag sequence is:"
+# for t in best_tag_seq:
+#     print t
+#
+# print "The probability of the best tag sequence is:", prob_tag_seq
