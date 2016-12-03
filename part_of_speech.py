@@ -91,7 +91,6 @@ class PointOfSpeechTagger(object):
 
     def stringToPOS(self, string):
         arr = re.findall(r"[\w']+|[.,!?;]", string) # split including commas
-        print arr
         return self.sentenceToPOS( arr )
 
     def inputToPOS(self):

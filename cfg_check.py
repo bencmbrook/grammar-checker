@@ -28,7 +28,7 @@ class verifyCFG(object):
 
     grammar2 = CFG.fromstring("""
         S  -> NP VP
-        NP -> "DT" Nom | "NNP"
+        NP -> "DT" Nom | "NNP" | "PRP"
         Nom -> "JJ" Nom | N
         VP -> V "JJ" | V NP | V S | V NP PP | V "RB"
         V -> "VBD" | "VB" | "VBG" | "VBN" | "VBP" | "VBZ"
@@ -53,7 +53,7 @@ class verifyCFG(object):
         # IN -> 'on'
 
     def verify(self, tags):
-        rd_parser = RecursiveDescentParser(self.grammar3)
+        rd_parser = RecursiveDescentParser(self.grammar2)
         valid = False
 
         if any(x in tags for x in ["WP", "WDT", "WP$", "WRB"]):
