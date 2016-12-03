@@ -33,9 +33,6 @@ class PointOfSpeechTagger(object):
 
 
     def sentenceToPOS(self, sentence):
-        # Force alpha only chars
-        # sentence = map(self.cleanWord, sentence)
-
         # Hidden Markov Model using Viterbi alg
         len_sent = len(sentence)
         viterbi = [ ]
@@ -100,11 +97,6 @@ class PointOfSpeechTagger(object):
     def inputToPOS(self):
         inp = raw_input("Let's check a sentence: ")
         return self.stringToPOS(inp)
-
-    # def cleanWord(self, string):
-    #     if len(string) > 1:
-    #         return re.sub(r'\W+', '', string)
-    #     else: return string
 
     def testAgainstCorpus(self, corpus, total_runs=1500):
         print "Testing Viterbi accuracy against corpus..."
