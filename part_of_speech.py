@@ -93,17 +93,18 @@ class PointOfSpeechTagger(object):
         return best_tag_seq
 
     def stringToPOS(self, string):
-        return self.sentenceToPOS( string.split(' ') )
+        arr = re.findall(r"[\w']+|[.,!?;]", string) # split including commas
+        print arr
+        return self.sentenceToPOS( arr )
 
     def inputToPOS(self):
         inp = raw_input("Let's check a sentence: ")
         return self.stringToPOS(inp)
 
-    def cleanWord(self, string):
-        #    print re.findall(r"[\w']+|[.,!?;]", string) # split including commas
-
-        return re.sub(r'\W+', '', string)
-
+    # def cleanWord(self, string):
+    #     if len(string) > 1:
+    #         return re.sub(r'\W+', '', string)
+    #     else: return string
 
     def testAgainstCorpus(self, corpus, total_runs=1500):
         print "Testing Viterbi accuracy against corpus..."

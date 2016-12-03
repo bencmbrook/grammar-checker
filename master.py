@@ -8,7 +8,9 @@ from nltk.corpus import conll2000, brown
 # Build HMM
 tagger1 = part_of_speech.PointOfSpeechTagger()
 tagger1.buildProbDist(conll2000)
-tagger1.testAgainstCorpus(conll2000)
+
+tagger1.stringToPOS("Hi, I'm Ben.")
+# tagger1.testAgainstCorpus(conll2000)
 
 
 # tagger2 = part_of_speech.PointOfSpeechTagger()
