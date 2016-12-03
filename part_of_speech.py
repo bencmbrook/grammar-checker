@@ -1,5 +1,6 @@
 import nltk
 import re
+import sys
 
 class PointOfSpeechTagger(object):
     """docstring for PointOfSpeechTagger."""
@@ -8,26 +9,32 @@ class PointOfSpeechTagger(object):
 
 
     def buildProbDist(self, corpus):
-        conll_tags_words = [ ]
+        corpus_tags_words = []
 
+        # Build array containing all tags and words of all sentences, in order
         for sent in corpus.tagged_sents():
-            conll_tags_words.append(("BEGIN","BEGIN"))
-            conll_tags_words.extend([(tag[:3], word) for (word, tag) in sent ])
-            conll_tags_words.append(("STOP","STOP"))
+            corpus_tags_words.append( ("BEGIN","BEGIN") )
+            corpus_tags_words.extend( [(tag, word) for (word, tag) in sent ] )
+            corpus_tags_words.append( ("STOP","STOP") )
 
-        fd_tagwords = nltk.ConditionalFreqDist(conll_tags_words)
+        # Build a conditional frequency distribution based on all tags/words of all sentences
+        fd_tagwords = nltk.ConditionalFreqDist(corpus_tags_words)
+        # Build conditional probability of each tag/word based on the frequency distribution above
         self.pd_tagwords = nltk.ConditionalProbDist(fd_tagwords, nltk.MLEProbDist)
 
-        conll_tags = [tag for (tag, word) in conll_tags_words ]
+        # Build array containing all tags of all sentences, in order
+        corpus_tags = [tag for (tag, word) in corpus_tags_words]
 
-        fd_tags = nltk.ConditionalFreqDist(nltk.bigrams(conll_tags))
+        # Build a frequency distribution based ONLY on bigrams tags
+        fd_tags = nltk.ConditionalFreqDist(nltk.bigrams(corpus_tags))
+        # Build conditional probability of each tag based on the frequency distribution above
         self.pd_tags = nltk.ConditionalProbDist(fd_tags, nltk.MLEProbDist)
-        self.all_tags = set(conll_tags)
+        self.all_tags = set(corpus_tags)
 
 
     def sentenceToPOS(self, sentence):
         # Force alpha only chars
-        sentence = map(self.cleanWord, sentence)
+        # sentence = map(self.cleanWord, sentence)
 
         # Hidden Markov Model using Viterbi alg
         len_sent = len(sentence)
@@ -93,4 +100,31 @@ class PointOfSpeechTagger(object):
         return self.stringToPOS(inp)
 
     def cleanWord(self, string):
+        #    print re.findall(r"[\w']+|[.,!?;]", string) # split including commas
+
         return re.sub(r'\W+', '', string)
+
+
+    def testAgainstCorpus(self, corpus, total_runs=1500):
+        print "Testing Viterbi accuracy against corpus..."
+        num_true = 0
+        num_runs = 0
+        for sent in corpus.tagged_sents():
+            sentenceArr = [pair[0] for pair in sent]
+            trueTagSeq = [pair[1] for pair in sent]
+            predTagSeq = self.sentenceToPOS(sentenceArr)
+
+            if trueTagSeq == predTagSeq:
+                num_true += 1
+            num_runs += 1
+
+            # Update percent complete output
+            sys.stdout.write('\r')
+            sys.stdout.write("%.2f%% " % (float(num_runs) / total_runs * 100))
+            sys.stdout.flush()
+
+            if num_runs >= total_runs:
+                break
+
+        print "ACCURACY: %.2f%%" % (num_true / float(num_runs) * 100)
+        return
