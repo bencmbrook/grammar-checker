@@ -1,11 +1,9 @@
-import part_of_speech, cfg_check, AP_tagger
+import Viterbi_tagger, AP_tagger, grammar
 
 # test values for developers
 test_sentence = ["I", "saw", "the", "duck"]
 cfg_test = ["NNP","VBD","NNP"]
 from nltk.corpus import conll2000, brown
-
-
 
 if __name__ == '__main__':
 
