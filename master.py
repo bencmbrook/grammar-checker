@@ -22,24 +22,15 @@ if __name__ == '__main__':
     except IOError:
         taggerAP.APTaggerTraining()
 
+while True:
+    # Build HMM
+    tagger1 = part_of_speech.PointOfSpeechTagger()
+    tag_sequence = tagger1.buildProbDist()
+    # Turn sentence into part-of-speech tags
+    #tag_sequence = tagger1.inputToPOS()
 
-# tagger1.testAgainstCorpus(conll2000)
+    print "TAG SEQUENCE:", tag_sequence
 
-
-# tagger2 = part_of_speech.PointOfSpeechTagger()
-# tagger2.buildProbDist(brown)
-# tagger2.testAgainstCorpus(brown)
-
-
-    while True:
-        # Build HMM
-        tagger1 = part_of_speech.PointOfSpeechTagger()
-        tag_sequence = tagger1.buildProbDist()
-        # Turn sentence into part-of-speech tags
-        #tag_sequence = tagger1.inputToPOS()
-
-        print "TAG SEQUENCE:", tag_sequence
-
-        # Pass tag sequence to CFG checker
-        cfg_checker = cfg_check.verifyCFG()
-        cfg_checker.verify(tag_sequence)
+    # Pass tag sequence to CFG checker
+    cfg_checker = cfg_check.verifyCFG()
+    cfg_checker.verify(tag_sequence)
