@@ -6,10 +6,10 @@ import AP_tagger
 from nltk.corpus import conll2000, brown
 
 
-class PointOfSpeechTagger(object):
-    """docstring for PointOfSpeechTagger."""
+class PartOfSpeechTagger(object):
+    """docstring for PartOfSpeechTagger."""
     def __init__(self):
-        super(PointOfSpeechTagger, self).__init__()
+        super(PartOfSpeechTagger, self).__init__()
 
 
     def buildProbDist(self):

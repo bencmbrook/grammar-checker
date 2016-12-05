@@ -30,8 +30,8 @@ class Grammar(object):
     """)
 
 
-    def buildFromTreebank(self, treebank):
-        # Build a Context-Free-Grammar based on a treebank
+    def buildFromTreebank(self):
+        # Build a Context-Free-Grammar based on UPenn treebank
         tbank_productions = set()
         for sent in treebank.parsed_sents():
             for production in sent.productions():
@@ -44,14 +44,10 @@ class Grammar(object):
 
         return tbank_grammar
 
-
+    # Verify sentence as grammatically correct or not.
     def verifySentence(self, grammar, tags):
         rd_parser = RecursiveDescentParser(grammar)
         valid = False
-
-        if any(x in tags for x in ["WP", "WDT", "WP$", "WRB"]):
-            print "I haven't learned about question words yet"
-            return
 
         try:
             for tree in rd_parser.parse(tags):
@@ -63,5 +59,7 @@ class Grammar(object):
 
         if valid:
             print "Valid"
+            return True
         else:
             print "Invalid"
+            return False

@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
 while True:
     # Build HMM
-    tagger1 = part_of_speech.PointOfSpeechTagger()
+    tagger1 = part_of_speech.PartOfSpeechTagger()
     tag_sequence = tagger1.buildProbDist()
     # Turn sentence into part-of-speech tags
     #tag_sequence = tagger1.inputToPOS()
