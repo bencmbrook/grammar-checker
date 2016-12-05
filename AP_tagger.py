@@ -14,8 +14,6 @@ PICKLE = "dataAP/user_defined_tagger.pickle"
 
 class APerceptron(object):
 
-    
-
     def __init__(self):
         # Each feature gets its own weight vector, so weights is a dict-of-dicts
         self.weights = {}
@@ -224,7 +222,7 @@ class AP_Tagger():
             if n >= freq_thresh and (float(mode) / n) >= ambiguity_thresh:
                 self.tagdict[word] = tag
 
-    def APTaggerTraining (self):
+    def APTaggerTraining(self):
         AP_tagger = AP_Tagger(False)
         # to train the averaged perceptron tagger
         print 'Loading corpus...'
@@ -243,7 +241,7 @@ class AP_Tagger():
         print 'Start training...'
         AP_tagger.train(training_data, save_loc=PICKLE)
 
-    def APTaggerTesting (self):
+    def APTaggerTesting(self):
         AP_tagger = AP_Tagger(False)
         AP_tagger.load(PICKLE)
         print "Try this Averaged Perceptron with a simple sentence : I saw the cat ? "
@@ -273,6 +271,3 @@ class AP_Tagger():
                 test_sentence = ([], [])
         # logging.info("Precision : %f", right / total)
         print "Precision : %f", right / total
-
-
-

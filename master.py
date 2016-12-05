@@ -14,11 +14,11 @@ if __name__ == '__main__':
     print "As the first step, we will test the AP tagger, and train it if necessary!"
 
 
+    # If the pickle file doesn't exist, train a new set and build pickle file
     # Train the AP Tagger
-    taggerAP = AP_tagger.AP_Tagger()
+    taggerAP = AP_tagger.AP_Tagger(False)
     try:
         taggerAP.APTaggerTesting()
-
     except IOError:
         taggerAP.APTaggerTraining()
 
@@ -43,4 +43,3 @@ if __name__ == '__main__':
         # Pass tag sequence to CFG checker
         cfg_checker = cfg_check.verifyCFG()
         cfg_checker.verify(tag_sequence)
-

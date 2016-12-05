@@ -84,7 +84,7 @@ class PointOfSpeechTagger(object):
         else:
 
             print "No such word in corpus: Conll2000 and Brown "
-            print "We will our user-defined AP tagger"
+            print "We will use our user-defined AP tagger"
             tag_sequence = AP_tagger.AP_Tagger().tag(inp)
 
 
@@ -184,7 +184,3 @@ class PointOfSpeechTagger(object):
         inp = raw_input("Let's check a sentence: ")
         return self.stringToPOS(inp)
 """
-
-
-
-
