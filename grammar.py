@@ -1,7 +1,7 @@
 import nltk
 from nltk.corpus import treebank
 from nltk.grammar import CFG, Nonterminal, Production
-from nltk import RecursiveDescentParser
+from nltk import RecursiveDescentParser, ShiftReduceParser, ChartParser
 
 class Grammar(object):
 
@@ -31,7 +31,7 @@ class Grammar(object):
 
 
     def buildFromTreebank(self):
-        # Build a Context-Free-Grammar based on UPenn treebank
+        """ Build a Context-Free-Grammar based on UPenn treebank """
         tbank_productions = set()
         for sent in treebank.parsed_sents():
             for production in sent.productions():
@@ -44,9 +44,10 @@ class Grammar(object):
 
         return tbank_grammar
 
-    # Verify tag sequence as grammatically correct or not.
     def verify(self, grammar, tags):
-        rd_parser = RecursiveDescentParser(grammar)
+        """ Verify tag sequence as grammatically correct or not """
+        # rd_parser = RecursiveDescentParser(grammar)
+        rd_parser = ChartParser(grammar)
         valid = False
 
         try:

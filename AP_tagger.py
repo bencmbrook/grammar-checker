@@ -90,28 +90,21 @@ class AP_Tagger():
         if load:
             self.load(self.AP_MODEL_LOC)
 
-    def tag(self, corpus):
-        '''Tags a string `corpus`.'''
-        # Assume untokenized corpus has \n between sentences and ' ' between words
-        s_split = lambda t: t.split('\n')
-        w_split = lambda s: s.split()
-
-        def split_sents(corpus):
-            for s in s_split(corpus):
-                yield w_split(s)
+    def tag(self, sentence):
+        '''Tags a sentence.'''
 
         prev, prev2 = self.BEGIN
         tokens = []
-        for words in split_sents(corpus):
-            context = self.BEGIN + [self._normalize(w) for w in words] + self.STOP
-            for i, word in enumerate(words):
-                tag = self.tagdict.get(word)
-                if not tag:
-                    features = self._get_features(i, word, context, prev, prev2)
-                    tag = self.model.predict(features)
-                tokens.append((word, tag))
-                prev2 = prev
-                prev = tag
+
+        context = self.BEGIN + [self._normalize(w) for w in sentence] + self.STOP
+        for i, word in enumerate(sentence):
+            tag = self.tagdict.get(word)
+            if not tag:
+                features = self._get_features(i, word, context, prev, prev2)
+                tag = self.model.predict(features)
+            tokens.append((word, tag[:-1]))
+            prev2 = prev
+            prev = tag
         return tokens
 
     def train(self, sentences, save_loc=None, nr_iter=10):

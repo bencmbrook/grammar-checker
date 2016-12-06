@@ -59,7 +59,7 @@ class PartOfSpeechTagger(object):
         else:
             # Missing word from corpora. Choose Averaged Perceptron.
             print "Your input contains a never-before-seen word! Using an Average Perceptron"
-            tag_sequence = AP_tagger.AP_Tagger().tag(inp)
+            tag_sequence = AP_tagger.AP_Tagger().tag( sentence )
 
         return tag_sequence
 
