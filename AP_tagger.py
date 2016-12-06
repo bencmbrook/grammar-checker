@@ -1,4 +1,4 @@
-'''An averaged perceptron, inspired by the nltk project and the websit below:
+'''An averaged perceptron, inspired by the nltk project and the website below:
             http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
     '''
 
@@ -269,5 +269,4 @@ class AP_Tagger():
                 for o, t in zip(outputs, tags):
                     if o[1].strip() == t: right += 1
                 test_sentence = ([], [])
-        # logging.info("Precision : %f", right / total)
-        print "Precision : %f", right / total
+        print "Precision: %f" % (right / total)

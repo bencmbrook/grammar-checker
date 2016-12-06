@@ -6,7 +6,7 @@ from nltk import RecursiveDescentParser
 class Grammar(object):
 
     def __init__(self, dev=False):
-        super(verifyCFG, self).__init__()
+        super(Grammar, self).__init__()
         self.dev = dev
 
     grammar1 = CFG.fromstring("""
@@ -44,8 +44,8 @@ class Grammar(object):
 
         return tbank_grammar
 
-    # Verify sentence as grammatically correct or not.
-    def verifySentence(self, grammar, tags):
+    # Verify tag sequence as grammatically correct or not.
+    def verify(self, grammar, tags):
         rd_parser = RecursiveDescentParser(grammar)
         valid = False
 
