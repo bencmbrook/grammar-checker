@@ -1,5 +1,5 @@
 '''An averaged perceptron, inspired by the nltk project and the website below:
-  http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
+            http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
     '''
 
 from __future__ import division
@@ -92,29 +92,19 @@ class AP_Tagger():
 
     def tag(self, sentence):
         '''Tags a sentence.'''
-        # format untokenized corpus has \n between sentences and ' ' between words
-
-        s_split = lambda t: t.split('\n')
-        w_split = lambda s: s.split()
-
-        def split_sents(sentence):
-            for s in s_split(sentence):
-                yield w_split(s)
-        ########################################
 
         prev, prev2 = self.BEGIN
         tokens = []
 
-        for words in split_sents(sentence):
-            context = self.BEGIN + [self._normalize(w) for w in words] + self.STOP
-            for i, word in enumerate(words):
-                tag = self.tagdict.get(word)
-                if not tag:
-                    features = self._get_features(i, word, context, prev, prev2)
-                    tag = self.model.predict(features)
-                tokens.append((word, tag[:-1]))
-                prev2 = prev
-                prev = tag
+        context = self.BEGIN + [self._normalize(w) for w in sentence] + self.STOP
+        for i, word in enumerate(sentence):
+            tag = self.tagdict.get(word)
+            if not tag:
+                features = self._get_features(i, word, context, prev, prev2)
+                tag = self.model.predict(features)
+            tokens.append((word, tag[:-1]))
+            prev2 = prev
+            prev = tag
         return tokens
 
     def train(self, sentences, save_loc=None, nr_iter=10):
@@ -248,7 +238,7 @@ class AP_Tagger():
         AP_tagger = AP_Tagger(False)
         AP_tagger.load(PICKLE)
         print "Try this Averaged Perceptron with a simple sentence : I saw the cat ? "
-        print AP_tagger.tag("I saw the cat ?")
+        print AP_tagger.tag('I saw the cat ?')
 
         print 'Start testing...'
         right = 0.0

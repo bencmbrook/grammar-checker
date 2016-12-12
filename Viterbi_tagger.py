@@ -56,7 +56,6 @@ class PartOfSpeechTagger(object):
             print "Using Viterbi: corpora", i+1
             c = self.corpora_prob_dists[i]
             tag_sequence = self._getViterbiPath(sentence, c[0], c[1], c[2])
-            #print tag_sequence
         else:
             # Missing word from corpora. Choose Averaged Perceptron.
             print "Your input contains a never-before-seen word! Using an Average Perceptron"
