@@ -146,9 +146,8 @@ class PartOfSpeechTagger(object):
         num_runs = 0
         for sent in corpus.tagged_sents():
 
-            sentenceArr = []
-            trueTagSeq = []
-            for (word, tag) in sent:
+            sentenceArr = trueTagSeq = []
+            for word, tag in sent:
                 sentenceArr.append( word )
                 trueTagSeq.append( tag )
             predTagSeq = self.sentenceToPOS(sentenceArr)
