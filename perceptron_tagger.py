@@ -240,15 +240,14 @@ class AP_Tagger():
             if w_list[0] == '.':
                 training_data.append(training_sentence)
                 training_sentence = ([], [])
-        print 'training corpus size : %d', len(training_data)
-        print 'Start training...'
+        print 'Training corpus size : %d', len(training_data)
+        print 'Start training AP Tagger...'
         AP_tagger.train(training_data, save_loc=PICKLE)
 
     def APTaggerTesting(self):
+        "Testing averaged perceptron tagger..."
         AP_tagger = AP_Tagger(False)
         AP_tagger.load(PICKLE)
-        print 'Testing Averaged Perceptron with a simple sentence : "I saw the cat?" '
-        print "AP TAG SEQUENCE", AP_tagger.tag("I saw the cat ?")
 
         right = 0.0
         total = 0.0
