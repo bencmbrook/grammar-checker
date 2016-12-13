@@ -1,4 +1,4 @@
-import nltk, re, sys, AP_tagger
+import nltk, re, sys, perceptron_tagger
 from nltk.corpus import conll2000, brown
 
 class PartOfSpeechTagger(object):
@@ -62,7 +62,7 @@ class PartOfSpeechTagger(object):
         else:
             # Missing word from corpora. Choose Averaged Perceptron.
             print "Your input contains a never-before-seen word! Using an Average Perceptron"
-            tag_sequence = AP_tagger.AP_Tagger().tag( self.AP_sent )
+            tag_sequence = perceptron_tagger.AP_Tagger().tag( self.AP_sent )
 
         return tag_sequence
 
