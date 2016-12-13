@@ -1,7 +1,7 @@
 import nltk
 from nltk.corpus import treebank
 from nltk.grammar import CFG, Nonterminal, Production
-from nltk import RecursiveDescentParser, ShiftReduceParser, ChartParser
+from nltk import ChartParser
 
 class Grammar(object):
 

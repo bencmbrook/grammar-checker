@@ -1,4 +1,4 @@
-import Viterbi_tagger, AP_tagger
+import viterbi_tagger, perceptron_tagger
 from nltk.corpus import conll2000, brown
 
 if __name__ == '__main__':
@@ -25,4 +25,3 @@ if __name__ == '__main__':
     print "The test will use a long time, please be patient."
     viterbi_tagger.buildProbDist(brown)
     viterbi_tagger.testAgainstCorpus(brown)
-

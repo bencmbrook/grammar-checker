@@ -1,4 +1,4 @@
-import Viterbi_tagger, AP_tagger, grammar
+import viterbi_tagger, perceptron_tagger, cfg
 
 # test values for developers
 test_sentence = ["I", "saw", "the", "duck"]
