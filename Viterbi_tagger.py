@@ -6,6 +6,8 @@ class PartOfSpeechTagger(object):
         super(PartOfSpeechTagger, self).__init__()
         # List containing tuples: ( pd_tagwords, pd_tags, all_tags, flag )
         self.corpora_prob_dists = []
+        # this input only prepares for AP tagger
+        self.AP_sent = []
 
 
     def buildProbDist(self, corpus):
@@ -60,7 +62,7 @@ class PartOfSpeechTagger(object):
         else:
             # Missing word from corpora. Choose Averaged Perceptron.
             print "Your input contains a never-before-seen word! Using an Average Perceptron"
-            tag_sequence = AP_tagger.AP_Tagger().tag( sentence )
+            tag_sequence = AP_tagger.AP_Tagger().tag( self.AP_sent )
 
         return tag_sequence
 
@@ -126,7 +128,7 @@ class PartOfSpeechTagger(object):
 
     def stringToPOS(self, string):
         """ Convert string to array and get tag sequence """
-
+        self.AP_sent = string
         arr = re.findall(r"[\w']+|[.,!?;]", string) # split including commas
         return self.sentenceToPOS( arr )
 
@@ -167,8 +169,6 @@ class PartOfSpeechTagger(object):
 
         print "ACCURACY: %.2f%%" % (num_true / float(num_runs) * 100)
         return
-<<<<<<< HEAD
-=======
 
 """
 class PartOfSpeechTagger(object):
@@ -339,4 +339,3 @@ class PartOfSpeechTagger(object):
         inp = raw_input("Let's check a sentence: ")
         return self.stringToPOS(inp)
 """
->>>>>>> parent of eb549a3... Revert "seperate the functions"
