@@ -247,10 +247,9 @@ class AP_Tagger():
     def APTaggerTesting(self):
         AP_tagger = AP_Tagger(False)
         AP_tagger.load(PICKLE)
-        print "Try this Averaged Perceptron with a simple sentence : I saw the cat ? "
-        print AP_tagger.tag("I saw the cat ?")
+        print 'Testing Averaged Perceptron with a simple sentence : "I saw the cat?" '
+        print "AP TAG SEQUENCE", AP_tagger.tag("I saw the cat ?")
 
-        print 'Start testing...'
         right = 0.0
         total = 0.0
         test_sentence = ([], [])
@@ -272,4 +271,4 @@ class AP_Tagger():
                 for o, t in zip(outputs, tags):
                     if o[1].strip() == t: right += 1
                 test_sentence = ([], [])
-        print "Precision: %f" % (right / total)
+        print "ACCURACY: %.2f%%" % (100 * right / total)

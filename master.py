@@ -6,10 +6,6 @@ cfg_test = ["NNP","VBD","NNP"]
 from nltk.corpus import conll2000, brown
 
 if __name__ == '__main__':
-
-    print "We use the tagged corpus to analysis the input sentence"
-    print "But if one of input word can not be found in the prepared corpus,the user-defined AP tagger will be activated"
-
     # Build HMM
     print "Generating Hidden Markov Model..."
     viterbi_tagger = viterbi_tagger.PartOfSpeechTagger()
@@ -30,7 +26,8 @@ if __name__ == '__main__':
     tbank_grammar = cfg_checker.buildFromTreebank()
     #
     # Loop input to get and check sentences
-    # print
+    print "If an input word is not in the corpora, the averaged perceptron \
+    tagger will be used instead of the Viterbi tagger.\n"
     while True:
          # Turn sentence into part-of-speech tags
          tag_sequence = viterbi_tagger.inputToPOS()

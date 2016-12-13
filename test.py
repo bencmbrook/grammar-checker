@@ -3,7 +3,7 @@ from nltk.corpus import conll2000, brown
 
 if __name__ == '__main__':
 
-    # verify the if AP tagger is ready to function
+    # Verify the if AP tagger is ready to function
     taggerAP = perceptron_tagger.AP_Tagger(False)
     print "If the averaged perceptron tagger is not trained, train it and cache the results."
     try:

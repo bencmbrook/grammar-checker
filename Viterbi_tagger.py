@@ -38,7 +38,7 @@ class PartOfSpeechTagger(object):
         self.corpora_prob_dists.append( (pd_tagwords, pd_tags, all_tags, corpus_tags_words) )
 
 
-    def sentenceToPOS(self, sentence):
+    def sentenceToPOS(self, sentence, test=False):
         """ Choose and call method (Viterbi Brown, Viterbi conll2000, Averaged Perceptron) """
         i = 0
         # Choose corpus (Are all words in input sentence in one of the corpora?)
@@ -55,7 +55,7 @@ class PartOfSpeechTagger(object):
         # Choose and call method
         if flag:
             # All words in a corpora. Choose Viterbi with ith corpora.
-            print "Using Viterbi: corpora", i+1
+            if not test: print "Using Viterbi: corpora", i+1
             c = self.corpora_prob_dists[i]
             tag_sequence = self._getViterbiPath(sentence, c[0], c[1], c[2])
             #print tag_sequence
@@ -153,7 +153,7 @@ class PartOfSpeechTagger(object):
             for (word, tag) in sent:
                 sentenceArr.append( word )
                 trueTagSeq.append( tag )
-            predTagSeq = self.sentenceToPOS(sentenceArr)
+            predTagSeq = self.sentenceToPOS(sentenceArr, True)
 
             if trueTagSeq == predTagSeq:
                 num_true += 1
@@ -161,11 +161,11 @@ class PartOfSpeechTagger(object):
 
             # Update percent complete output
             sys.stdout.write('\r')
-            sys.stdout.write("%.2f%% " % (float(num_runs) / total_runs * 100))
+            sys.stdout.write("%.1f%% " % (float(num_runs) / total_runs * 100))
             sys.stdout.flush()
 
             if num_runs >= total_runs:
                 break
 
-        print "ACCURACY: %.2f%%" % (num_true / float(num_runs) * 100)
+        print "\nACCURACY: %.2f%%" % (num_true / float(num_runs) * 100)
         return
