@@ -1,7 +1,5 @@
 # Grammar Checker
 
-### A final project for CS182 AI at Harvard
-
 ![Poster Summarizing Findings](https://raw.githubusercontent.com/bencmbrook/Grammar-Checker/master/Poster.jpg)
 
 # Paper
