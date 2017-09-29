@@ -11,4 +11,4 @@ Run `python dataAP/buildTrainTestFiles.py` to generate the .txt for training the
 ![Poster Summarizing Findings](https://raw.githubusercontent.com/bencmbrook/Grammar-Checker/master/Poster.jpg)
 
 # Paper
-https://github.com/bencmbrook/Grammar-Checker/blob/master/Grammar%20Checker%20Using%20Hidden%20Markov%20Models%20and%20Trained%20CFGs.pdf
+[Grammar Checker Using Hidden Markov Models and Trained CFGs](https://github.com/bencmbrook/Grammar-Checker/blob/master/Grammar%20Checker%20Using%20Hidden%20Markov%20Models%20and%20Trained%20CFGs.pdf)
